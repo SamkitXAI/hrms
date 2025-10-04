@@ -45,4 +45,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function company(){ return $this->belongsTo(\App\Models\Company::class); }
+    public function employee(){ return $this->hasOne(\App\Models\Employee::class); }
+
 }
