@@ -26,6 +26,12 @@
                     </div>
                 </header>
             @endisset
+            <div class="d-flex">
+                @include('partials.sidebar')
+                <div class="flex-fill">
+                    @yield('content')
+                </div>
+            </div>
 
             <!-- Page Content -->
             <main>
