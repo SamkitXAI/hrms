@@ -43,4 +43,26 @@ class AttendanceController extends Controller
 
         return back()->with('success', 'Checked out');
     }
+
+    public function my(Request $request)
+{
+    $user = $request->user();
+    $employee = $user->employee; // if you store 1-to-1 mapping
+
+    abort_unless($employee, 404);
+
+    $month = $request->input('month', now()->format('Y-m'));
+    [$y,$m] = explode('-', $month);
+    $from = \Carbon\Carbon::createFromDate($y,$m,1)->startOfMonth();
+    $to   = (clone $from)->endOfMonth();
+
+    $logs = $employee->attendanceLogs()
+        ->whereBetween('work_date', [$from->toDateString(), $to->toDateString()])
+        ->orderBy('work_date','asc')
+        ->get()
+        ->keyBy(fn($l) => $l->work_date->format('Y-m-d'));
+
+    return view('attendance.my', compact('employee','month','from','to','logs'));
+}
+
 }

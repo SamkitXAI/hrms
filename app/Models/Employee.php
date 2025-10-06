@@ -20,4 +20,5 @@ class Employee extends Model
     public function user(){ return $this->belongsTo(User::class); }
     public function shifts(){ return $this->belongsToMany(Shift::class)->withPivot(['effective_from','effective_to'])->withTimestamps(); }
     public function attendanceLogs(){ return $this->hasMany(AttendanceLog::class); }
+    public function corrections(){ return $this->hasMany(AttendanceCorrection::class); }
 }
